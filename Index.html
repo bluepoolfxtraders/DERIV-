@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deriv Partner Portal Pro</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body { font-family: Arial; background:#f4f4f4; padding:20px; }
+.container { max-width:1100px; margin:auto; background:#fff; padding:20px; border-radius:10px; }
+
+h2,h3 { margin-top:0; }
+
+.section { margin-top:25px; padding:15px; border-radius:8px; border:1px solid #ddd; }
+input,button { padding:10px; margin:5px; }
+button { cursor:pointer; }
+
+#analysis { background:#eef; }
+#adminPanel { background:#ffe; }
+#tools { background:#efe; }
+
+table { width:100%; border-collapse:collapse; }
+th,td { border:1px solid #ccc; padding:8px; }
+
+.topbar { display:flex; justify-content:space-between; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="topbar">
+<h2>Deriv Partner Portal</h2>
+<button onclick="logout()">Logout</button>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="section">
+<h3>Login / Register</h3>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<input id="referrer" placeholder="Referral Code (optional)">
+<br>
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section" style="display:none;">
+<h3>Dashboard</h3>
+<p><b>User:</b> <span id="userName"></span></p>
+<p><b>Referral Code:</b> <span id="refCode"></span></p>
+<p><b>Referrals:</b> <span id="refCount"></span></p>
+
+<canvas id="chart"></canvas>
+<p><b>Signal:</b> <span id="signal">-</span></p>
+</div>
+
+<!-- ANALYSIS BOT -->
+<div id="analysis" class="section" style="display:none;">
+<h3>Market Analysis Bot</h3>
+<p>Short MA (10): <span id="maShort"></span></p>
+<p>Long MA (50): <span id="maLong"></span></p>
+<p><b>Recommendation:</b> <span id="recommendation"></span></p>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPanel" class="section" style="display:none;">
+<h3>Admin Panel</h3>
+<table>
+<thead><tr><th>Name</th><th>Email</th><th>Referrals</th></tr></thead>
+<tbody id="adminUsers"></tbody>
+</table>
+</div>
+
+<!-- TOOLS -->
+<div id="tools" class="section">
+<h3>Tools</h3>
+<button onclick="exportData()">Export Data</button>
+<input type="file" onchange="importData(event)">
+<button onclick="resetAll()">Reset System</button>
+</div>
+
+</div>
+
+<script>
+// STORAGE
+let users = JSON.parse(localStorage.getItem('users')) || [
+ {name:'Admin',email:'admin@deriv.com',password:'admin',role:'admin',referrals:0,referralCode:'ADMIN01'}
+];
+let currentUser=null;
+let prices=[],signals=[];
+let chart=null;
+
+function save(){ localStorage.setItem('users',JSON.stringify(users)); }
+
+// AUTH
+function register(){
+ let n=name.value,e=email.value,p=password.value,r=referrer.value.toUpperCase();
+ if(!n||!e||!p) return alert('Fill fields');
+ if(users.find(u=>u.email===e)) return alert('Exists');
+
+ let code=Math.random().toString(36).substring(2,8).toUpperCase();
+ users.push({name:n,email:e,password:p,role:'partner',referrals:0,referralCode:code});
+
+ if(r){
+   let ref=users.find(u=>u.referralCode===r);
+   if(ref) ref.referrals++;
+ }
+
+ save();
+ alert('Registered');
+}
+
+function login(){
+ let e=email.value,p=password.value;
+ let u=users.find(x=>x.email===e&&x.password===p);
+ if(!u) return alert('Invalid');
+
+ currentUser=u;
+
+ auth.style.display='none';
+ dashboard.style.display='block';
+ analysis.style.display='block';
+
+ userName.innerText=u.name;
+ refCode.innerText=u.referralCode;
+ refCount.innerText=u.referrals;
+
+ if(u.role==='admin'){ adminPanel.style.display='block'; loadAdmin(); }
+
+ startBot();
+}
+
+// ADMIN
+function loadAdmin(){
+ adminUsers.innerHTML='';
+ users.forEach(u=>{
+  adminUsers.innerHTML+=`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.referrals}</td></tr>`;
+ });
+}
+
+// LOGOUT
+function logout(){
+ location.reload();
+}
+
+// RESET
+function resetAll(){
+ if(confirm('Reset all data?')){
+  localStorage.clear();
+  location.reload();
+ }
+}
+
+// EXPORT
+function exportData(){
+ let blob=new Blob([JSON.stringify(users)],{type:'application/json'});
+ let a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='data.json';
+ a.click();
+}
+
+// IMPORT
+function importData(e){
+ let file=e.target.files[0];
+ let reader=new FileReader();
+ reader.onload=()=>{
+  users=JSON.parse(reader.result);
+  save();
+  alert('Imported');
+ };
+ reader.readAsText(file);
+}
+
+// MARKET BOT
+function startBot(){
+ let ctx=document.getElementById('chart').getContext('2d');
+ chart=new Chart(ctx,{
+  type:'line',
+  data:{labels:[],datasets:[
+   {label:'Price',data:[],borderColor:'blue'},
+   {label:'Signal',data:[],borderColor:'red'}
+  ]}
+ });
+
+ let ws=new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
+ ws.onopen=()=>ws.send(JSON.stringify({ticks:'R_100'}));
+
+ ws.onmessage=m=>{
+  let d=JSON.parse(m.data);
+  if(d.tick){
+   let price=d.tick.quote;
+   prices.push(price);
+   if(prices.length>100) prices.shift();
+
+   let sig='-';
+   if(prices.length>1) sig=price>prices.at(-2)?'BUY':'SELL';
+   signals.push(sig);
+
+   signal.innerText=sig;
+
+   chart.data.labels=prices.map((_,i)=>i);
+   chart.data.datasets[0].data=prices;
+   chart.data.datasets[1].data=signals.map(s=>s==='BUY'?Math.max(...prices):Math.min(...prices));
+   chart.update();
+
+   let maS=avg(prices.slice(-10));
+   let maL=avg(prices.slice(-50));
+
+   maShort.innerText=maS.toFixed(2);
+   maLong.innerText=maL.toFixed(2);
+
+   recommendation.innerText = maS>maL?'BUY':maS<maL?'SELL':'HOLD';
+  }
+ };
+}
+
+function avg(a){ return a.reduce((x,y)=>x+y,0)/a.length || 0; }
+
+</script>
+</body>
+                   </html>
