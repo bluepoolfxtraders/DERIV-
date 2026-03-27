@@ -1,226 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deriv Partner Portal Pro</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blezo FX | Premier Deriv Affiliate Partner in Kenya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* * MASSIVE STYLESHEET 
+         * Providing extensive design definitions to ensure a premium, modern aesthetic 
+         * without cutting any corners.
+         */
+        :root {
+            --primary-color: #ff444f; /* Deriv Brand Red */
+            --secondary-color: #1a1a1a;
+            --background-dark: #0e0e0e;
+            --text-light: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --accent-blue: #007aff;
+            --spacing-large: 100px;
+            --spacing-medium: 50px;
+        }
 
-<style>
-body { font-family: Arial; background:#f4f4f4; padding:20px; }
-.container { max-width:1100px; margin:auto; background:#fff; padding:20px; border-radius:10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-h2,h3 { margin-top:0; }
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
 
-.section { margin-top:25px; padding:15px; border-radius:8px; border:1px solid #ddd; }
-input,button { padding:10px; margin:5px; }
-button { cursor:pointer; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-#analysis { background:#eef; }
-#adminPanel { background:#ffe; }
-#tools { background:#efe; }
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(14, 14, 14, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-table { width:100%; border-collapse:collapse; }
-th,td { border:1px solid #ccc; padding:8px; }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
 
-.topbar { display:flex; justify-content:space-between; }
-</style>
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #e0303b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 68, 79, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, #2a1012 0%, var(--background-dark) 70%);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            max-width: 1000px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 50px;
+        }
+
+        /* Generic Section Styling */
+        section {
+            padding: var(--spacing-large) 10vw;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-medium);
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--secondary-color);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 68, 79, 0.3);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Content Blocks */
+        .content-block h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .content-block p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #000000;
+            padding: 50px 10vw;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
 
-<div class="topbar">
-<h2>Deriv Partner Portal</h2>
-<button onclick="logout()">Logout</button>
-</div>
+    <nav>
+        <div class="logo">Blezo <span>FX</span></div>
+        <div class="nav-links">
+            <a href="#about">The Edge</a>
+            <a href="#platforms">Platforms</a>
+            <a href="#markets">Financial Markets</a>
+        </div>
+        <a href="https://deriv.partners/rx?sidi=2B8D583A-83C4-4012-BD59-2F22980791F6&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU316236" class="btn-primary affiliate-link" target="_blank" rel="noopener noreferrer">Start Trading With Deriv Today</a>
+    </nav>
 
-<!-- AUTH -->
-<div id="auth" class="section">
-<h3>Login / Register</h3>
-<input id="name" placeholder="Name">
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<input id="referrer" placeholder="Referral Code (optional)">
-<br>
-<button onclick="register()">Register</button>
-<button onclick="login()">Login</button>
-</div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Master Institutional Trading with <span>Deriv</span></h1>
+            <p>Welcome to the ultimate trading environment curated by Blezo FX. Operating from Kenya and expanding globally, we provide you with a massive amount of information and cutting-edge tools. Partner with a broker trusted by over two and a half million traders worldwide. Experience unparalleled execution, deep liquidity, and innovative market access.</p>
+            <a href="https://deriv.partners/rx?sidc=3C91BC19-DF3A-4F3B-8F18-436361E26141&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU316236" class="btn-primary affiliate-link" target="_blank" rel="noopener noreferrer">Open Your Live Trading Account</a>
+        </div>
+    </section>
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="section" style="display:none;">
-<h3>Dashboard</h3>
-<p><b>User:</b> <span id="userName"></span></p>
-<p><b>Referral Code:</b> <span id="refCode"></span></p>
-<p><b>Referrals:</b> <span id="refCount"></span></p>
+    <section id="about" class="methodology-section">
+        <div class="section-header">
+            <h2>The Blezo FX Trading Methodology</h2>
+            <p>We do not rely on guesswork. We utilize advanced market mechanics and partner with the most reliable brokerage infrastructure available.</p>
+        </div>
+        <div class="grid-2">
+            <div class="content-block">
+                <h3>Institutional Logic and Precision</h3>
+                <p>At Blezo FX, we analyze the intricate mechanics of the financial markets using advanced Smart Money Concepts. Our trading approach is deeply rooted in understanding the underlying institutional order flow rather than relying on lagging indicators. By partnering with Deriv through our platform, you gain the technical infrastructure required to successfully identify Institutional Order Blocks, navigate complex Liquidity pools, and execute highly precise market entries directly within Fair Value Gaps.</p>
+                <p>Furthermore, our community is backed by the analytical framework of the Blue Pool Forex Traders system. This ensures that whenever you need strategic guidance, the bot and our comprehensive resources will provide a massive amount of information, allowing you to make the most educated, data-driven trading decisions possible.</p>
+            </div>
+            <div class="card methodology-card">
+                <h3>Why Deriv is Our Exclusive Choice</h3>
+                <p>Deriv has been an industry leader for over twenty-five years. They offer an unmatched feature set including completely swap-free trading over the weekends on their proprietary indices.</p>
+                <p>They provide robust Negative Balance Protection, ensuring that your account balance can never drop below zero, thereby protecting you from catastrophic market volatility. With dynamic leverage tailored to specific instruments, you are granted exceptional exposure control.</p>
+            </div>
+        </div>
+    </section>
 
-<canvas id="chart"></canvas>
-<p><b>Signal:</b> <span id="signal">-</span></p>
-</div>
+    <section id="markets" class="markets-section">
+        <div class="section-header">
+            <h2>Comprehensive Financial Markets</h2>
+            <p>Explore an exhaustive range of asset classes. Whether you prefer the traditional currency markets or algorithmic volatility, Deriv provides the perfect landscape.</p>
+        </div>
+        <div class="grid-3">
+            <div class="card market-card">
+                <h3>Synthetic Indices</h3>
+                <p>These are proprietary markets engineered by cryptographically secure random number generators. They are completely free from the influence of real-world economic events and liquidity disruptions.</p>
+                <p>You can trade twenty-four hours a day, seven days a week. The offerings include Crash and Boom Indices, Step Indices, Jump Indices, and pure Volatility Indices. The leverage on these instruments can dynamically reach up to one to five thousand, providing extreme flexibility for highly disciplined risk management.</p>
+            </div>
+            <div class="card market-card">
+                <h3>Foreign Exchange</h3>
+                <p>Engage in the world’s largest and most liquid financial market. Deriv offers deeply competitive, tightly reduced spreads across major, minor, and exotic currency pairs.</p>
+                <p>Benefit from institutional-grade execution speeds, allowing you to capitalize on macroeconomic shifts using your Inner Circle Trader methodologies without the fear of excessive slippage or market manipulation.</p>
+            </div>
+            <div class="card market-card">
+                <h3>Contracts for Difference & Multipliers</h3>
+                <p>Trade Contracts for Difference to speculate on the rising and falling prices of global commodities, cryptocurrencies, and Exchange Traded Funds without needing to own the underlying physical asset.</p>
+                <p>Alternatively, utilize Deriv Multipliers. This unique financial instrument allows you to multiply your potential profit by up to one thousand times, while strictly capping your maximum potential loss to the initial stake you invested in the trade.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- ANALYSIS BOT -->
-<div id="analysis" class="section" style="display:none;">
-<h3>Market Analysis Bot</h3>
-<p>Short MA (10): <span id="maShort"></span></p>
-<p>Long MA (50): <span id="maLong"></span></p>
-<p><b>Recommendation:</b> <span id="recommendation"></span></p>
-</div>
+    <section id="platforms" class="platforms-section">
+        <div class="section-header">
+            <h2>Advanced Trading Platforms</h2>
+            <p>Access the financial markets through a suite of state-of-the-art software applications tailored to your specific trading style.</p>
+        </div>
+        <div class="grid-2">
+            <div class="card platform-card">
+                <h3>Deriv MetaTrader 5</h3>
+                <p>The undisputed global standard for retail and institutional traders alike. Deriv MetaTrader 5 offers extensive technical analysis tools, unlimited charting capabilities, and full support for algorithmic expert advisors. It perfectly integrates our Smart Money Concepts indicators and provides transparent, real-time margin calculations so you are never caught off guard.</p>
+            </div>
+            <div class="card platform-card">
+                <h3>Deriv cTrader & Deriv X</h3>
+                <p>For traders seeking an alternative to the MetaTrader environment, Deriv cTrader offers incredibly intuitive interfaces and highly advanced copy-trading functionalities. Deriv X acts as a robust, highly customizable web-based charting platform, allowing you to configure your workspace with massive amounts of analytical data on a single screen.</p>
+            </div>
+            <div class="card platform-card">
+                <h3>Deriv Bot</h3>
+                <p>Automate your trading logic without needing to write a single line of complex programming code. The Deriv Bot platform uses a highly visual, drag-and-drop interface. You can build, backtest, and deploy algorithmic trading strategies seamlessly, ensuring your customized logic runs flawlessly twenty-four hours a day.</p>
+            </div>
+            <div class="card platform-card">
+                <h3>Deriv GO Mobile Application</h3>
+                <p>For the trader who is constantly on the move, the Deriv GO application delivers a fully optimized mobile experience. It allows you to monitor your positions, execute trades, and apply vital risk management features such as stop-loss and take-profit orders directly from your smartphone, ensuring you never miss an opportunity in the markets.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- ADMIN -->
-<div id="adminPanel" class="section" style="display:none;">
-<h3>Admin Panel</h3>
-<table>
-<thead><tr><th>Name</th><th>Email</th><th>Referrals</th></tr></thead>
-<tbody id="adminUsers"></tbody>
-</table>
-</div>
+    <section class="cta-section" style="text-align: center; background: rgba(255, 68, 79, 0.05); padding: 100px 20px; border-top: 1px solid rgba(255,68,79, 0.2); border-bottom: 1px solid rgba(255,68,79, 0.2);">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">Ready to Transform Your Trading Journey?</h2>
+        <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 50px auto;">Register through the Blezo FX partnership portal today. Gain immediate access to a ten thousand United States Dollar virtual demonstration account, participate in highly competitive real-cash trading tournaments, and begin executing your strategies with institutional precision.</p>
+        <a href="https://deriv.partners/rx?sidc=4660E968-FE5B-4F74-A0EC-23415F01CBED&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU316236" class="btn-primary affiliate-link" style="font-size: 1.2rem; padding: 20px 50px;" target="_blank" rel="noopener noreferrer">Create Your Free Deriv Account Now</a>
+    </section>
 
-<!-- TOOLS -->
-<div id="tools" class="section">
-<h3>Tools</h3>
-<button onclick="exportData()">Export Data</button>
-<input type="file" onchange="importData(event)">
-<button onclick="resetAll()">Reset System</button>
-</div>
+    <footer>
+        <div class="logo" style="margin-bottom: 20px;">Blezo <span>FX</span></div>
+        <p>Providing massive amounts of information and uncompromised institutional trading education.</p>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">Risk Warning: Trading Foreign Exchange, Synthetic Indices, and Contracts for Difference carries a high level of risk to your capital and may not be suitable for all investors. Ensure you fully understand the risks involved and manage your margin carefully.</p>
+    </footer>
 
-</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        // Register the ScrollTrigger plugin for scroll-based animations
+        gsap.registerPlugin(ScrollTrigger);
 
-<script>
-// STORAGE
-let users = JSON.parse(localStorage.getItem('users')) || [
- {name:'Admin',email:'admin@deriv.com',password:'admin',role:'admin',referrals:0,referralCode:'ADMIN01'}
-];
-let currentUser=null;
-let prices=[],signals=[];
-let chart=null;
+        // 1. Hero Section Animations
+        const heroTimeline = gsap.timeline();
+        heroTimeline.from(".hero-content h1", {
+            y: 80,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power4.out"
+        })
+        .from(".hero-content p", {
+            y: 40,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out"
+        }, "-=1.0")
+        .from(".hero-content .btn-primary", {
+            scale: 0.8,
+            opacity: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        }, "-=0.8");
 
-function save(){ localStorage.setItem('users',JSON.stringify(users)); }
+        // 2. Navigation Bar Animation
+        gsap.from("nav", {
+            y: -100,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.5
+        });
 
-// AUTH
-function register(){
- let n=name.value,e=email.value,p=password.value,r=referrer.value.toUpperCase();
- if(!n||!e||!p) return alert('Fill fields');
- if(users.find(u=>u.email===e)) return alert('Exists');
+        // 3. Section Headers Scroll Animation
+        gsap.utils.toArray('.section-header').forEach(header => {
+            gsap.from(header, {
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
 
- let code=Math.random().toString(36).substring(2,8).toUpperCase();
- users.push({name:n,email:e,password:p,role:'partner',referrals:0,referralCode:code});
+        // 4. Grid Cards Staggered Animation
+        gsap.utils.toArray('.grid-3').forEach(grid => {
+            const cards = grid.querySelectorAll('.card');
+            gsap.from(cards, {
+                scrollTrigger: {
+                    trigger: grid,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out"
+            });
+        });
 
- if(r){
-   let ref=users.find(u=>u.referralCode===r);
-   if(ref) ref.referrals++;
- }
+        // 5. Grid 2 Content Animation
+        gsap.utils.toArray('.grid-2').forEach(grid => {
+            const elements = grid.children;
+            gsap.from(elements, {
+                scrollTrigger: {
+                    trigger: grid,
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                },
+                x: (index) => index % 2 === 0 ? -50 : 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.3,
+                ease: "power3.out"
+            });
+        });
 
- save();
- alert('Registered');
-}
-
-function login(){
- let e=email.value,p=password.value;
- let u=users.find(x=>x.email===e&&x.password===p);
- if(!u) return alert('Invalid');
-
- currentUser=u;
-
- auth.style.display='none';
- dashboard.style.display='block';
- analysis.style.display='block';
-
- userName.innerText=u.name;
- refCode.innerText=u.referralCode;
- refCount.innerText=u.referrals;
-
- if(u.role==='admin'){ adminPanel.style.display='block'; loadAdmin(); }
-
- startBot();
-}
-
-// ADMIN
-function loadAdmin(){
- adminUsers.innerHTML='';
- users.forEach(u=>{
-  adminUsers.innerHTML+=`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.referrals}</td></tr>`;
- });
-}
-
-// LOGOUT
-function logout(){
- location.reload();
-}
-
-// RESET
-function resetAll(){
- if(confirm('Reset all data?')){
-  localStorage.clear();
-  location.reload();
- }
-}
-
-// EXPORT
-function exportData(){
- let blob=new Blob([JSON.stringify(users)],{type:'application/json'});
- let a=document.createElement('a');
- a.href=URL.createObjectURL(blob);
- a.download='data.json';
- a.click();
-}
-
-// IMPORT
-function importData(e){
- let file=e.target.files[0];
- let reader=new FileReader();
- reader.onload=()=>{
-  users=JSON.parse(reader.result);
-  save();
-  alert('Imported');
- };
- reader.readAsText(file);
-}
-
-// MARKET BOT
-function startBot(){
- let ctx=document.getElementById('chart').getContext('2d');
- chart=new Chart(ctx,{
-  type:'line',
-  data:{labels:[],datasets:[
-   {label:'Price',data:[],borderColor:'blue'},
-   {label:'Signal',data:[],borderColor:'red'}
-  ]}
- });
-
- let ws=new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
- ws.onopen=()=>ws.send(JSON.stringify({ticks:'R_100'}));
-
- ws.onmessage=m=>{
-  let d=JSON.parse(m.data);
-  if(d.tick){
-   let price=d.tick.quote;
-   prices.push(price);
-   if(prices.length>100) prices.shift();
-
-   let sig='-';
-   if(prices.length>1) sig=price>prices.at(-2)?'BUY':'SELL';
-   signals.push(sig);
-
-   signal.innerText=sig;
-
-   chart.data.labels=prices.map((_,i)=>i);
-   chart.data.datasets[0].data=prices;
-   chart.data.datasets[1].data=signals.map(s=>s==='BUY'?Math.max(...prices):Math.min(...prices));
-   chart.update();
-
-   let maS=avg(prices.slice(-10));
-   let maL=avg(prices.slice(-50));
-
-   maShort.innerText=maS.toFixed(2);
-   maLong.innerText=maL.toFixed(2);
-
-   recommendation.innerText = maS>maL?'BUY':maS<maL?'SELL':'HOLD';
-  }
- };
-}
-
-function avg(a){ return a.reduce((x,y)=>x+y,0)/a.length || 0; }
-
-</script>
+        // 6. Call To Action Section Parallax Fade
+        gsap.from(".cta-section h2, .cta-section p, .cta-section .btn-primary", {
+            scrollTrigger: {
+                trigger: ".cta-section",
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+    </script>
 </body>
-                   </html>
+</html>
+
